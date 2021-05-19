@@ -9,7 +9,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +21,18 @@ import java.util.logging.Logger;
  * @author H
  */
 public class ClientAction {
-    private String IPAddress = "127.0.0.1";
+    private String IPAddress;;
     private DataOutputStream outToServer;
     private BufferedReader inFromServer;
     private int PORT = 2004;
+
+    public ClientAction() {
+        try {
+            this.IPAddress = Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ClientAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void StartConnection(){
         try {
            
@@ -31,17 +41,19 @@ public class ClientAction {
             outToServer = new DataOutputStream(clientSocket.getOutputStream());
     
             inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            SendMessage();
+            SendMessage("IP:"+IPAddress);
+            while(true){
+                ReceiveMessage();
+            }
             
         } catch (IOException ex) {
             Logger.getLogger(ClientAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void SendMessage(){
-        String text = "send from client";
+    public void SendMessage(String message){
         try {
-            outToServer.writeBytes(text + '\n');
+            outToServer.writeBytes(message + '\n');
         } catch (IOException ex) {
             Logger.getLogger(ClientAction.class.getName()).log(Level.SEVERE, null, ex);
         }

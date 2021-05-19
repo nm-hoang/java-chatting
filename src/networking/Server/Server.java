@@ -104,7 +104,7 @@ public class Server extends javax.swing.JFrame {
             }
         });
         
-        System.out.println("hel");
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
