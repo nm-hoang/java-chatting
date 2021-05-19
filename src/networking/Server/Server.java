@@ -16,11 +16,11 @@ public class Server extends javax.swing.JFrame {
     /**
      * Creates new form Server
      */
-    private ServerAction serverAction = new ServerAction();
+    private static ServerAction serverAction = new ServerAction();
+    
     public Server() {
         initComponents();
-        //serverAction.CloseConnection();
-       serverAction.StartConnection();
+       
     }
     
     /**
@@ -33,6 +33,9 @@ public class Server extends javax.swing.JFrame {
     private void initComponents() {
 
         btnDiconnect = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListClient = new javax.swing.JList<>();
+        btnConnect = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("frameServer"); // NOI18N
@@ -44,21 +47,36 @@ public class Server extends javax.swing.JFrame {
             }
         });
 
+        jListClient.setBorder(javax.swing.BorderFactory.createTitledBorder("Clients are connected"));
+        jScrollPane1.setViewportView(jListClient);
+
+        btnConnect.setText("Start connection");
+        btnConnect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConnectActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(179, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
                 .addComponent(btnDiconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(122, 122, 122))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(btnDiconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(195, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDiconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -66,8 +84,14 @@ public class Server extends javax.swing.JFrame {
 
     private void btnDiconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiconnectActionPerformed
         // TODO add your handling code here:
-        serverAction.CloseConnection();
+//        serverAction.CloseConnection();
+        System.out.println("test");
     }//GEN-LAST:event_btnDiconnectActionPerformed
+
+    private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnConnectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,11 +127,21 @@ public class Server extends javax.swing.JFrame {
                 new Server().setVisible(true);
             }
         });
-        
-        System.out.println("hel");
+         // Runs outside of the Swing UI thread
+         serverAction.InitializeSocket();
+        serverAction.Start();
+        System.out.println("test thread");
     }
-
+    
+    public synchronized void RefreshData(){
+        while(true){
+            
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConnect;
     private javax.swing.JButton btnDiconnect;
+    private javax.swing.JList<String> jListClient;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

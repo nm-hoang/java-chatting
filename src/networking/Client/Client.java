@@ -14,11 +14,11 @@ public class Client extends javax.swing.JFrame {
     /**
      * Creates new form Client
      */
-    private ClientAction clientAction = new ClientAction();
+    private static ClientAction clientAction = new ClientAction();
     public Client() {
         initComponents();
-        clientAction.StartConnection();
-        clientAction.SendMessage();
+        
+      
     }
 
     /**
@@ -43,6 +43,11 @@ public class Client extends javax.swing.JFrame {
         btnSignup.setText("Sign up");
 
         btnSignin1.setText("Sign in");
+        btnSignin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignin1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -92,6 +97,12 @@ public class Client extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSignin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignin1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("t");
+        clientAction.SendMessage("testing");
+    }//GEN-LAST:event_btnSignin1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -125,6 +136,7 @@ public class Client extends javax.swing.JFrame {
                 new Client().setVisible(true);
             }
         });
+        clientAction.StartConnection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
